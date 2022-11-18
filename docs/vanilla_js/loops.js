@@ -31,3 +31,22 @@ const cars = ["BMW", "Volvo", "Mini"];
 for (let car of cars) {
   console.log(`${car}`);
 }
+cars.forEach((car) => console.log(`${car}`));
+
+// forEach
+// 데이터타입이 array 이어야 사용 가능
+const array1 = ["a", "b", "c"];
+
+array1.forEach((element) => console.log(element));
+
+// Arrow Function
+let arrowFunction = (element) => {
+  console.log(element);
+};
+array1.forEach(arrowFunction);
+
+// Normal Function
+function normalFunction(element) {
+  console.log(element);
+}
+array1.forEach(arrowFunction);
