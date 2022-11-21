@@ -37,11 +37,11 @@ cars.forEach((car) => console.log(`${car}`));
 // 데이터타입이 array 이어야 사용 가능
 const array1 = ["a", "b", "c"];
 
-array1.forEach((element) => console.log(element));
+array1.forEach((element, i) => console.log(element));
 
 // Arrow Function
-let arrowFunction = (element) => {
-  console.log(element);
+let arrowFunction = (element, index) => {
+  console.log(`${element}, index ${index}`);
 };
 array1.forEach(arrowFunction);
 
