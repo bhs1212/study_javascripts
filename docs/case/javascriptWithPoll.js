@@ -17,102 +17,104 @@
 //출력
 // 매칭 출력
 
-const fs = require("fs");
+let fs = require("fs");
 
 const filepath =
   process.platform === "linux"
     ? "/dev/stdin"
     : "docs/case/javascriptWithPoll.txt";
-// 답변
-let inputs = fs
-  .readFileSync(filepath)
-  .toString()
-  .trim()
-  .split("\n")
-  .map(Number);
+let input = fs.readFileSync(filepath).toString().trim().split("\n").map(Number);
 
-// 문항 사항
-let question_arr = [
-  { q: "해당 매장을 방문시 매장은 청결 하였습니까?", qid: "Q1", order: 1 },
-  { q: "직원이 제조한 음료에 대해 맛은 좋았습니까?", qid: "Q2", order: 2 },
-  { q: "주문시 직원은 고객님께 친절 하였습니까?", qid: "Q3", order: 3 },
+let input_answers = [1, 2, 4, 3, 1];
+for (let i = 0; i < 5; i++) {
+  input_answers[i] = input[i];
+}
+
+const questions_list = [
   {
-    q: "해당 매장을 다음에도 재방문 하실 의향이 있으십니까?",
-    qid: "Q4",
+    question: "해당 매장을 방문시 매장은 청결 하였습니까?",
+    questions_uid: "Q1",
+    order: 1,
+  },
+  {
+    question: "주문시 직원은 고객님께 친절 하였습니까?",
+    questions_uid: "Q2",
+    order: 2,
+  },
+  {
+    question: "주문하신 음료가 나오기까지 시간이 적당하였습니까?",
+    questions_uid: "Q3",
+    order: 3,
+  },
+  {
+    question: "해당 매장을 다음에도 재방문 하실 의향이 있으십니까?",
+    questions_uid: "Q5",
     order: 4,
   },
   {
-    q: "주문하신 음료가 나오기까지 시간이 적당하였습니까?",
-    qid: "Q5",
+    question: "직원이 제조한 음료에 대해 맛은 좋았습니까?",
+    questions_uid: "Q4",
     order: 5,
   },
 ];
 
-// 답항 사항
-let example_arr = [
-  { e: "전혀 아니다", eid: "E1", order: 1 },
-  { e: "아니다", eid: "E2", order: 2 },
-  { e: "보통이다", eid: "E3", order: 3 },
-  { e: "그렇다", eid: "E4", order: 4 },
-  { e: "매우 그렇다", eid: "E5", order: 5 },
+const answer_list = [
+  { answer: "전혀 아니다", answer_uid: "E1", order: 1 },
+  { answer: "아니다", answer_uid: "E2", order: 2 },
+  { answer: "보통이다", answer_uid: "E3", order: 3 },
+  { answer: "그렇다", answer_uid: "E4", order: 4 },
+  { answer: "매우 그렇다", answer_uid: "E5", order: 5 },
 ];
 
-// 문항, 답항 출력
-for (let i = 0; i < question_arr.length; i++) {
-  console.log(`${question_arr[i]["order"]}. ${question_arr[i]["q"]}`);
-  exam_anwerfunction(i);
-}
+const questions_answers = [
+  { questions_uid: "Q1", answer_uid: "E1" },
+  { questions_uid: "Q1", answer_uid: "E2" },
+  // { questions_uid: "Q1", answer_uid: "E3" },
+  { questions_uid: "Q2", answer_uid: "E1" },
+  { questions_uid: "Q2", answer_uid: "E2" },
+  { questions_uid: "Q2", answer_uid: "E3" },
+  // { questions_uid: "Q2", answer_uid: "E4" },
+  { questions_uid: "Q3", answer_uid: "E1" },
+  { questions_uid: "Q3", answer_uid: "E2" },
+  { questions_uid: "Q4", answer_uid: "E1" },
+  { questions_uid: "Q4", answer_uid: "E2" },
+  { questions_uid: "Q4", answer_uid: "E3" },
+  { questions_uid: "Q4", answer_uid: "E4" },
+  { questions_uid: "Q4", answer_uid: "E5" },
+  { questions_uid: "Q5", answer_uid: "E1" },
+  { questions_uid: "Q5", answer_uid: "E2" },
+  { questions_uid: "Q5", answer_uid: "E3" },
+];
 
-console.log("----------------설문자 선택----------------");
-// 문항마다 설문자가 선택한 답 출력
-for (let i = 0; i < question_arr.length; i++) {
-  console.log(`${question_arr[i]["order"]}. ${question_arr[i]["q"]}`);
-  answerfunction(i);
-}
-console.log("");
-console.log("이용해 주셔서 감사합니다.");
+// 예상 묶음 데이터
+// [
+//    [Q1, E1, E2] -> {questions_uid:Q1, answers_uid:[E1, E2]}
+//    [Q2, E1, E2, E3] -> {questions_uid:Q2, answers_uid:[E1, E2, E3]}
+//    [Q3, E1, E2] -> {questions_uid:Q3, answers_uid:[E1, E2]}
+//    [Q4, E1, E2, E3, E4, E5] -> {questions_uid:Q4, answers_uid:[E1, E2, E3, E4, E5]}
+//    [Q5, E1, E2, E3] -> {questions_uid:Q5, answers_uid:[E1, E2, E3]}
+// ]
+// 1차 방식 : [Q1, Q2, Q3, Q4, Q5]
+// 2차 방식 : Array in Array [[Q1, E1, E2], [Q2, E1, E2, E3] ...]
 
-// 함수
-
-// 문항에 따른 답항과 답 출력 함수
-function exam_anwerfunction(i) {
-  if (question_arr[i]["order"] == 1) {
-    examplefunction(0, 1, 2);
-    console.log(`답 : ${inputs[i]}`);
-  } else if (question_arr[i]["order"] == 2) {
-    examplefunction(0, 1, 2, 3);
-    console.log(`답 : ${inputs[i]}`);
-  } else if (question_arr[i]["order"] == 3) {
-    examplefunction(0, 1);
-    console.log(`답 : ${inputs[i]}`);
-  } else if (question_arr[i]["order"] == 4) {
-    examplefunction(0, 1, 2, 3, 4);
-    console.log(`답 : ${inputs[i]}`);
-  } else if (question_arr[i]["order"] == 5) {
-    examplefunction(0, 1, 2);
-    console.log(`답 : ${inputs[i]}`);
+let polls = []; // 전체 묶음
+let question_compare;
+let questions = []; // 내부 묶음
+for (let idx = 0; idx < questions_answers.length; idx++) {
+  if (question_compare != questions_answers[idx]["questions_uid"]) {
+    if (questions.length > 0) {
+      polls.push(questions);
+      questions = [];
+    }
+    // console.log(`!= : ${questions_answers[idx]["questions_uid"]}`);
+    // console.log(`!= : ${questions_answers[idx]["answer_uid"]}`);
+    questions.push(questions_answers[idx]["questions_uid"]);
+    questions.push(questions_answers[idx]["answer_uid"]);
+  } else {
+    // console.log(`== : ${questions_answers[idx]["answer_uid"]}`);
+    questions.push(questions_answers[idx]["answer_uid"]);
   }
+  question_compare = questions_answers[idx]["questions_uid"]; // 이전 uid 입력
 }
-
-// 답항 출력 함수
-function examplefunction(...args) {
-  let examfunction = (arg) => {
-    console.log(`(${example_arr[arg].order}) ${example_arr[arg].e}`);
-  };
-  args.forEach(examfunction);
-}
-
-// 설문자가 고른 답변 출력 함수
-function answerfunction(i) {
-  if (question_arr[i]["order"] == 1) {
-    console.log(`(${inputs[i]}) ${example_arr[i].e}`);
-  } else if (question_arr[i]["order"] == 2) {
-    console.log(`(${inputs[i]}) ${example_arr[i].e}`);
-  } else if (question_arr[i]["order"] == 3) {
-    console.log(`(${inputs[i]}) ${example_arr[i].e}`);
-  } else if (question_arr[i]["order"] == 4) {
-    console.log(`(${inputs[i]}) ${example_arr[i].e}`);
-  } else if (question_arr[i]["order"] == 5) {
-    console.log(`(${inputs[i]}) ${example_arr[i].e}`);
-  }
-}
+polls.push(questions);
+console.log(`${polls}`);
