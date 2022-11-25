@@ -205,8 +205,10 @@ queryNext.addEventListener("click", setPollContent);
 let index = 0;
 function setPollContent() {
   if (index > 4) {
+    // 마지막 페이지에서 next 클릭 시 출력
     alert("마지막 페이지입니다.");
   }
+
   let queryContent = document.querySelector("#poll-contents");
   // polls[0]["questions_uid"]; // 설문 문항
   // polls[0]["answer_uids"]; // 설문 답항
@@ -227,10 +229,12 @@ function setPollContent() {
   index++;
 }
 
+// Prev 클릭 시 이전 페이지 표시
 let queryPrev = document.querySelector("#prev");
 queryPrev.addEventListener("click", prevcontent);
 function prevcontent() {
   if (index < 0) {
+    // 첫 페이지에서 prev 클릭 시 출력
     alert("첫번째 페이지입니다.");
   }
   index--;
