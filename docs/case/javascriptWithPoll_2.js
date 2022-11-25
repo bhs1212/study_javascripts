@@ -17,18 +17,18 @@
 //출력
 // 매칭 출력
 
-let fs = require("fs");
+// let fs = require("fs");
 
-const filepath =
-  process.platform === "linux"
-    ? "/dev/stdin"
-    : "docs/case/javascriptWithPoll.txt";
-let input = fs.readFileSync(filepath).toString().trim().split("\n").map(Number);
+// const filepath =
+//   process.platform === "linux"
+//     ? "/dev/stdin"
+//     : "docs/case/javascriptWithPoll.txt";
+// let input = fs.readFileSync(filepath).toString().trim().split("\n").map(Number);
 
-let input_answers = [1, 2, 4, 3, 1];
-for (let i = 0; i < 5; i++) {
-  input_answers[i] = input[i];
-}
+// let input_answers = [1, 2, 4, 3, 1];
+// for (let i = 0; i < 5; i++) {
+//   input_answers[i] = input[i];
+// }
 
 const questions_list = [
   {
@@ -152,22 +152,98 @@ for (let idx = 0; idx < questions_answers.length; idx++) {
 // Q2. 주문 시 직원은 고객님께 친절하였습니까?
 // ...
 
-function getQuetionByUid(question_uid) {
-  let question_desc;
-  for (question_list of questions_list) {
-    if (question_list["question_uid"] == question_uid) {
-      question_desc = question_list["question"];
+// function getQuetionByUid(question_uid) {
+//   let question_desc;
+//   for (question_list of questions_list) {
+//     if (question_list["question_uid"] == question_uid) {
+//       question_desc = question_list["question"];
+//     }
+//   }
+//   return question_desc;
+// }
+
+function getQuestionByUid(question_uid) {
+  // question_uid = 'Q1'
+  let question_desc = "";
+  for (question of questions_list) {
+    if (question["questions_uid"] === question_uid) {
+      question_desc = question["question"];
+      break;
     }
   }
   return question_desc;
 }
 
+function getAnswerByUid(answer_uid) {
+  let answer_desc = "";
+  for (answer of answer_list) {
+    if (answer["answer_uid"] === answer_uid) {
+      answer_desc = answer["answer"];
+      break;
+    }
+  }
+  return answer_desc;
+}
+
 for (let poll of polls) {
-  console.log(`${getQuetionByUid(poll["questions_uid"])}`);
-  // console.log(`${poll["questions_uid"]}`); // == polls[idx]
+  let question_desc = getQuestionByUid(poll["questions_uid"]);
+  // console.log(`${poll["questions_uid"]}. ${question_desc}`); // == polls[idx]
   let answer_uids = poll["answer_uids"];
   answer_uids.forEach((answer_uid, index) => {
     //answers
-    console.log(`${index + 1}. ${answer_uid}`);
+    // console.log(`${index + 1}. ${answer_uid}`);
+    // console.log(`${index + 1}. ${getAnswerByUid(answer_uid)}`);
   });
+}
+
+// Event handlers
+// Next 클릭 시 순서대로 설문 표시
+// 대상 변수는 polls
+let queryNext = document.querySelector("#next");
+queryNext.addEventListener("click", setPollContent);
+
+let index = 0;
+function setPollContent() {
+  if (index > 4) {
+    alert("마지막 페이지입니다.");
+  }
+  let queryContent = document.querySelector("#poll-contents");
+  // polls[0]["questions_uid"]; // 설문 문항
+  // polls[0]["answer_uids"]; // 설문 답항
+  // console.log(getQuestionByUid(polls[index]["questions_uid"]));
+  let desc = `<div>${index + 1}. ${getQuestionByUid(
+    polls[index]["questions_uid"]
+  )}</div>`;
+  polls[index]["answer_uids"].forEach((answer_uid, index) => {
+    // answers
+    // console.log(`${index + 1}. ${getAnswerByUid(answer_uid)}`);
+    desc =
+      desc +
+      `<div><input type="radio" name="example" id="" />(${
+        index + 1
+      }). ${getAnswerByUid(answer_uid)}</div>`;
+  });
+  queryContent.innerHTML = desc;
+  index++;
+}
+
+let queryPrev = document.querySelector("#prev");
+queryPrev.addEventListener("click", prevcontent);
+function prevcontent() {
+  if (index < 0) {
+    alert("첫번째 페이지입니다.");
+  }
+  index--;
+  let queryContent = document.querySelector("#poll-contents");
+  let desc = `<div>${index + 1}. ${getQuestionByUid(
+    polls[index]["questions_uid"]
+  )}</div>`;
+  polls[index]["answer_uids"].forEach((answer_uid, index) => {
+    desc =
+      desc +
+      `<div><input type="radio" name="example" id="" />(${
+        index + 1
+      }). ${getAnswerByUid(answer_uid)}</div>`;
+  });
+  queryContent.innerHTML = desc;
 }
