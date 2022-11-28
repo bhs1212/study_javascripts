@@ -1,0 +1,19 @@
+/* * {
+  border: 1px dotted gray;
+} */
+
+.div-style {
+  text-align: center;
+  display: flex;
+}
+.btn {
+  background-color: limegreen;
+  color: white;
+  width: 100%;
+  border-radius: 5px;
+  border-color: limegreen;
+}
+
+.div-padding {
+  padding: 0 5px;
+}
