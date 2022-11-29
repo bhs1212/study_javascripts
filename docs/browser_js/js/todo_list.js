@@ -45,6 +45,7 @@ function additem(event) {
                 </span>
             </span>
           </div>`;
+
     querytextadd.insertAdjacentHTML("beforeend", newItem);
   } else {
     alert("Please enter a task");
