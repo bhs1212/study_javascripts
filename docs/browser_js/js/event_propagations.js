@@ -9,7 +9,10 @@ let newItem = `
 <li>
 <div>
   <input type="checkbox" name="" id="item3" />
-  <label for="item2">item three</label>
+  <label for="item3">item three</label>
+  <span>
+  <i class="material-icons delete">delete</i>
+  </span>
 </div>
 </li>`;
 
@@ -20,11 +23,11 @@ queryItemList.addEventListener("click", (event) => {
     alert(`clicked ${event.target.id} : ${event.target.value}`);
   }
   if (event.target.innerHTML == "delete") {
-    event.target.remove();
+    event.target.parentElement.parentElement.parentElement.remove();
   }
 });
 // queryItemList.innerHTML = queryItemList.innerHTML + newItem;
-// queryItemList.insertAdjacentHTML("beforeend", newItem);
+queryItemList.insertAdjacentHTML("beforeend", newItem);
 // queryItemList.insertAdjacentHTML("beforebegin", newItem);
 
 // let queryInputs = document.querySelectorAll("input");

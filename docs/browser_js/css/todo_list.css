@@ -1,0 +1,45 @@
+.h3-div {
+  background-color: purple;
+  padding: 2%;
+  color: white;
+}
+
+.div-style {
+  text-align: center;
+  margin: auto;
+}
+
+#txtinput {
+  width: 86%;
+  height: 50px;
+}
+
+#btnadd {
+  width: 10%;
+  height: 50px;
+  background-color: plum;
+  color: white;
+  border: 1px solid plum;
+  cursor: pointer;
+}
+
+.input-div {
+  border: 1px solid gray;
+  margin: 1%;
+  display: flex;
+  justify-content: space-between;
+  padding: 1%;
+}
+
+.delete:hover,
+.favorite:hover {
+  cursor: pointer;
+}
+
+.delete {
+  color: red;
+}
+
+.favorite {
+  color: orange;
+}
