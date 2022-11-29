@@ -38,7 +38,7 @@ function additem(event) {
                 </div>
             <span>
                 <span class="favorite">
-                    <i class="material-icons">favorite</i>
+                    <i class="material-icons">favorite_border</i>
                 </span>
                 <span class="delete">
                     <i class="material-icons">delete</i>
