@@ -34,7 +34,7 @@ function additem(event) {
     let newItem = `
           <div class="input-div">
                 <div>
-                ${querytxtinput.value}
+                    ${querytxtinput.value}
                 </div>
             <span>
                 <span class="favorite">
